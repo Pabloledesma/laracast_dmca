@@ -6,11 +6,11 @@
  * Pages Controller
  */
 get('/', 'PagesController@home');
-get('auth/login', 'PagesController@authForm');
-get('auth/register', 'PagesController@registerForm');
+//get('auth/login', 'PagesController@authForm');
+//get('auth/register', 'PagesController@registerForm');
 
 
-get('notices/create', 'AuthController@registerForm');
+Route::resource('notices', 'NoticesController');
 
 Route::controllers([
 	'auth' => 'Auth\AuthController',
