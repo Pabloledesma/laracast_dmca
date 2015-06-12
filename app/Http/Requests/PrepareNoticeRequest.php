@@ -25,8 +25,8 @@ class PrepareNoticeRequest extends Request
     {
         return [
         
-            'infringin_title'   => 'required',
-            'infringin_link'    => 'required|url',
+            'infringing_title'   => 'required',
+            'infringing_link'    => 'required|url',
             'original_link'     => 'required|url',
             'provider_id'       => 'required',
             

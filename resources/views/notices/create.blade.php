@@ -11,13 +11,13 @@
 		</div>
 
 		<div class="form-group">
-			{!! Form::label('infringin_title', 'What is the title of the content that is being infringed upon: ') !!}
-			{!! Form::text('infringin_title', null, ['class' => 'form-control']) !!}
+			{!! Form::label('infringing_title', 'What is the title of the content that is being infringed upon: ') !!}
+			{!! Form::text('infringing_title', null, ['class' => 'form-control']) !!}
 		</div>
 
 		<div class="form-group">
-			{!! Form::label('infringin_link', 'What is the link to where this content is located: ') !!}
-			{!! Form::text('infringin_link', null, ['class' => 'form-control']) !!}
+			{!! Form::label('infringing_link', 'What is the link to where this content is located: ') !!}
+			{!! Form::text('infringing_link', null, ['class' => 'form-control']) !!}
 		</div>
 
 		<div class="form-group">
