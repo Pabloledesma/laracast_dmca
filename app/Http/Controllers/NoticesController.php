@@ -20,7 +20,7 @@ class NoticesController extends Controller
 
     public function index()
     {
-    	$notices = \Auth::user()->notices();
+    	$notices = \Auth::user()->notices()->notice;
         dd( $notices );
         return view('notices.index', compact('notices'));
     } 
@@ -60,7 +60,14 @@ class NoticesController extends Controller
      */  
     public function store( Request $request )
     {
-        $this->createNotice( $request );
+        $notice = $this->createNotice( $request );
+
+        \Mail::queue('emails.dmca', compact('notice'), function( $message ) use ( $notice ){
+            $message->from( $notice->getOwnerEmail() )
+                ->to( $notice->getRecipientEmail() )
+                ->subject('DMCA Notice');
+        });
+
         return redirect('notices');
     } 
     
@@ -87,16 +94,18 @@ class NoticesController extends Controller
     /**
     * Create and presist a new DMCA Notice
     *
-    * @param    param
-    * @return    return
+    * @param    Request $request
+    * @return   Notice
     */
     public function createNotice( Request $request )
       {
-        $data = session()->get('dmca'); 
+        $notice = session()->get('dmca') + ['template' => $request->template]; 
 
-        $notice = Notice::open( $data )->useTemplate( $request->template );
+        //$notice = Notice::open( $data )->useTemplate( $request->template );
             
-        \Auth::user()->notices()->save( $notice );
+        \Auth::user()->notices()->create( $notice );
+
+        return $notice;
       }   
        
           
