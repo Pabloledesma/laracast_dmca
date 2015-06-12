@@ -1,5 +1,7 @@
 @extends('app')
 
 @section('content')
-	All Notices
+	<h1>Notices</h1>
+
+	<pre>{{ $notices }}</pre>
 @stop

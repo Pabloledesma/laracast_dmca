@@ -20,7 +20,8 @@ class Provider extends Model
      */
     protected $fillable = [
     	'name',
-    	'copyright_email'
+    	'copyright_email',
+        'provider_id'
     ];
 
 }

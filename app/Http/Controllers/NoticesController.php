@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Provider;
+use App\Notice;
+use App\User;
 use App\Http\Requests;
 use App\Http\Requests\PrepareNoticeRequest;
 use App\Http\Controllers\Controller;
@@ -18,7 +20,9 @@ class NoticesController extends Controller
 
     public function index()
     {
-    	return view('notices.index');
+    	$notices = \Auth::user()->notices();
+        dd( $notices );
+        return view('notices.index', compact('notices'));
     } 
 
     public function create()
@@ -39,17 +43,25 @@ class NoticesController extends Controller
      */  
     public function confirm(PrepareNoticeRequest $request, Guard $auth)
     {
-        
-        $template = $this->compileDmcaTemplate( $request->all(), $auth );
+        $data = $request->all();
+
+        $template = $this->compileDmcaTemplate( $data, $auth );
 
         session()->flash('dmca', $data);
 
         return view('notices.confirm', compact('template')); 
     }
 
-    public function store()
+    /**
+     * Store a new DMCA Notice
+     *
+     * @param    Request $request
+     * @return   Redirector
+     */  
+    public function store( Request $request )
     {
-        return session()->get('dmca');
+        $this->createNotice( $request );
+        return redirect('notices');
     } 
     
     /**
@@ -61,7 +73,7 @@ class NoticesController extends Controller
      */
     private function compileDmcaTemplate($data, Guard $auth)
     {
-         $data = $data + [
+        $data = $data + [
             'name'  => $auth->user()->name,
             'email' => $auth->user()->email
         ];
@@ -70,5 +82,22 @@ class NoticesController extends Controller
 
 
         return $template;
-    }   
+    }
+
+    /**
+    * Create and presist a new DMCA Notice
+    *
+    * @param    param
+    * @return    return
+    */
+    public function createNotice( Request $request )
+      {
+        $data = session()->get('dmca'); 
+
+        $notice = Notice::open( $data )->useTemplate( $request->template );
+            
+        \Auth::user()->notices()->save( $notice );
+      }   
+       
+          
 }
