@@ -1,1 +1,1 @@
-{{ $notice->template }}
+{{ $notice['template'] }}

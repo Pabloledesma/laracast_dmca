@@ -57,7 +57,7 @@ class Notice extends Model
 	 */  
 	public function getRecipientEmail()
 	{
-		return $this->recipient()->copyright_email;
+		return $this->recipient->copyright_email;
 	}
 
 	/**
@@ -67,7 +67,7 @@ class Notice extends Model
 	 */
 	public function getOwnerEmail()
   	{
-  		return $this->user()->email;
+  		return $this->user->email;
   	}   
 	
 	
